@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: './server'
+      dockerfile: ./Dockerfile
+    depends_on: 
+      - mongo
+    volumes:
+      - ./server:/code
+      - /server/node_modules
+    command: npm start
+    ports:
+      - "8833:8833"
+  mongo:
+    image: mongo
+    ports: 
+      - 27017
