@@ -10,10 +10,10 @@ services:
     volumes:
       - ./server:/code
       - /server/node_modules
-    command: npm start
+    command: npm run dev
     ports:
       - "8833:8833"
   mongo:
     image: mongo
     ports: 
-      - 27017
+      - "27017:27017"
