@@ -10,7 +10,7 @@ db.then(() => {
   console.log('connected db');
 })
 const links = db.get('links');
-//links.createIndex({slug: 1}, {unique: true});
+links.createIndex({slug: 1}, {unique: true});
 
 const app = express();
 
@@ -25,8 +25,21 @@ app.get('/', (req, res) => {
   })
 });
 
-app.get('/:id', (req, res) => {
-  // TODO: redirect to url
+app.get('/:id', async (req, res) => {
+  const { id:slug } = req.params;
+  try {
+    const link = await links.findOne({ slug });
+    if(link) {
+      return res.redirect(link.url);
+    }
+    return res.status(404).json({
+      error: 'URL not found'
+    })
+  } catch (error) {
+    return res.status(404).json({
+      error
+    })
+  }
 });
 
 const schema = yup.object().shape({
