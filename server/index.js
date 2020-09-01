@@ -3,12 +3,12 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const yup = require('yup');
 const monk = require('monk');
-const { nanoid } = require('nanoid')
+const { nanoid } = require('nanoid');
 
 const db = monk('mongodb://mongo:27017/links');
 db.then(() => {
   console.log('connected db');
-})
+});
 const links = db.get('links');
 links.createIndex({slug: 1}, {unique: true});
 
@@ -17,13 +17,6 @@ const app = express();
 app.use(helmet());
 app.use(morgan('common'));
 app.use(express.json());
-app.use(express.static('./public'));
-
-app.get('/', (req, res) => {
-  res.json({
-    message: 'cher.ry - shorter urls, more time for harvesting'
-  })
-});
 
 app.get('/:id', async (req, res) => {
   const { id:slug } = req.params;
@@ -34,11 +27,11 @@ app.get('/:id', async (req, res) => {
     }
     return res.status(404).json({
       error: 'URL not found'
-    })
+    });
   } catch (error) {
     return res.status(404).json({
       error
-    })
+    });
   }
 });
 
