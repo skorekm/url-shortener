@@ -1,25 +1,83 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as yup from 'yup';
+import {
+  ThemeProvider,
+  createTheme,
+  Arwes,
+  Project,
+  Words,
+  Paragraph,
+  Blockquote,
+  Button
+} from 'arwes';
+import { Formik, Form, Field } from 'formik';
 
-function App() {
+const schema = yup.object().shape({
+  url: yup.string().url().required('This is required field'),
+  slug: yup.string()
+});
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ThemeProvider theme={createTheme()}>
+      <Arwes animate show>
+        <Project
+          animate
+          header="Create short urls"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          {anim => (
+            <>
+              <Paragraph>
+                <Words
+                  animate
+                  show={anim.entered}
+                >
+                  Welcome traveler.
+                  You have come a long way to create short urls
+                  to the site of your choosing.
+                  Be wise, with great power comes great
+                  responsibility. Do not use links for
+                  malicious sites and/or programs.
+                  May the force be with you.
+              </Words>
+              </Paragraph>
+              <Formik
+                initialValues={{
+                  url: '',
+                  slug: ''
+                }}
+                validationSchema={schema}
+                onSubmit={(values) => {
+                  console.log(values)
+                }}
+              >
+
+                <Form>
+                  <Field type="url" name="url">
+                    {({
+                      field,
+                      meta,
+                    }) => (
+                        <div>
+                          <input type="text" placeholder="Url" {...field} />
+                          {meta.touched && meta.error && (
+                            <Blockquote data-layer='alert'>{meta.error}</Blockquote>
+                          )}
+                        </div>
+                      )}
+                  </Field>
+                  <Field type="text" name="slug" />
+                  <Button animate layer='success' type="submit">
+                    Submit
+                  </Button>
+                </Form>
+
+              </Formik>
+            </>
+          )}
+        </Project>
+      </Arwes>
+    </ThemeProvider>
   );
 }
 
