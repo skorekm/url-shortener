@@ -25,6 +25,15 @@ app.get('/api/latest', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+app.get('/api/most-used', async (req, res, next) => {
+  try {
+    const mostUsedLinks = await links.find({}, {limit: 5, sort: {used: -1}});
+    res.status(200).send({data: mostUsedLinks})
+  } catch (error) {
+    next(error);
+  }
 })
 
 app.get('/api/:id', async (req, res) => {
