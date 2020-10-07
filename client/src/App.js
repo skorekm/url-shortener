@@ -1,5 +1,4 @@
 import React from 'react';
-import * as yup from 'yup';
 import {
   ThemeProvider,
   createTheme,
@@ -7,15 +6,17 @@ import {
   Project,
   Words,
   Paragraph,
-  Blockquote,
-  Button
 } from 'arwes';
-import { Formik, Form, Field } from 'formik';
+import styled from 'styled-components';
+import { UrlForm } from './Components/UrlForm';
 
-const schema = yup.object().shape({
-  url: yup.string().url().required('This is required field'),
-  slug: yup.string()
-});
+const SectionWrapper = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 80%;
+  margin: 0 auto;
+`;
 
 const App = () => {
   return (
@@ -38,44 +39,27 @@ const App = () => {
                   Be wise, with great power comes great
                   responsibility. Do not use links for
                   malicious sites and/or programs.
-                  May the force be with you.
-              </Words>
+                  May the link be with you.
+                </Words>
               </Paragraph>
-              <Formik
-                initialValues={{
-                  url: '',
-                  slug: ''
-                }}
-                validationSchema={schema}
-                onSubmit={(values) => {
-                  console.log(values)
-                }}
-              >
-
-                <Form>
-                  <Field type="url" name="url">
-                    {({
-                      field,
-                      meta,
-                    }) => (
-                        <div>
-                          <input type="text" placeholder="Url" {...field} />
-                          {meta.touched && meta.error && (
-                            <Blockquote data-layer='alert'>{meta.error}</Blockquote>
-                          )}
-                        </div>
-                      )}
-                  </Field>
-                  <Field type="text" name="slug" />
-                  <Button animate layer='success' type="submit">
-                    Submit
-                  </Button>
-                </Form>
-
-              </Formik>
+              <UrlForm />
             </>
           )}
         </Project>
+        <SectionWrapper>
+          <Project
+            animate
+            header="Most used slugs"
+          >
+            blah blah
+          </Project>
+          <Project
+            animate
+            header="Latest slugs"
+          >
+            blah blah
+          </Project>
+        </SectionWrapper>
       </Arwes>
     </ThemeProvider>
   );

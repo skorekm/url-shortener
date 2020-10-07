@@ -28,9 +28,10 @@ services:
     ports: 
       - "27017:27017"
   proxy:
-    image: tivix/docker-nginx:prod-v2.2
+    image: tivix/docker-nginx:v9
     environment:
-      - PROXY_TARGETS=frontend:3000,backend:8833
-      - "PROXY_LOCATIONS=/,/api/"
+      - UPSTREAMS=/:frontend:3000,/api:backend:8833
+    depends_on:
+      - backend
     ports:
       - '8088:80'
