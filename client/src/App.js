@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ThemeProvider,
   createTheme,
@@ -9,6 +9,8 @@ import {
 } from 'arwes';
 import styled from 'styled-components';
 import { UrlForm } from './Components/UrlForm';
+import { List } from './Components/List';
+import axios from 'axios';
 
 const SectionWrapper = styled.section`
   display: flex;
@@ -19,6 +21,23 @@ const SectionWrapper = styled.section`
 `;
 
 const App = () => {
+  const [mostUsedSlugs, setMostUsedSlugs] = useState([]);
+  const [latestSlugs, setLatestSlugs] = useState([]);
+  const fetchMostUsedSlugs = async () => {
+    await axios.get('/api/latest').then(res => {
+      setMostUsedSlugs(res.data.data);
+    });
+  }
+  const fetchLatestSlugs = async () => {
+    await axios.get('/api/most-used').then(res => {
+      setLatestSlugs(res.data.data);
+    })
+  }
+  useEffect(() => {
+    //TODO: figure out refresh on url submit
+    fetchMostUsedSlugs();
+    fetchLatestSlugs();
+  }, [])
   return (
     <ThemeProvider theme={createTheme()}>
       <Arwes animate show>
@@ -47,18 +66,14 @@ const App = () => {
           )}
         </Project>
         <SectionWrapper>
-          <Project
-            animate
-            header="Most used slugs"
-          >
-            blah blah
-          </Project>
-          <Project
-            animate
-            header="Latest slugs"
-          >
-            blah blah
-          </Project>
+          <List 
+            header="most used slugs"
+            list={mostUsedSlugs}
+          />
+          <List
+            header="latest slugs"
+            list={latestSlugs}
+          />
         </SectionWrapper>
       </Arwes>
     </ThemeProvider>
