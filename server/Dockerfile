@@ -1,4 +1,4 @@
-FROM node:12.13-alpine
+FROM node:12.22-alpine
 RUN mkdir /code
 WORKDIR /code/
 #copy package-lock.json and package.json for cached Docker layers
