@@ -28,7 +28,7 @@ services:
     ports: 
       - "27017:27017"
   proxy:
-    image: tivix/docker-nginx:v9
+    image: tivix/docker-nginx:v13
     environment:
       - UPSTREAMS=/:frontend:3000,/api:backend:8833
     depends_on:
