@@ -9,8 +9,8 @@
     "arwes": "^1.0.0-alpha.5",
     "axios": "^0.27.0",
     "formik": "^2.1.5",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-scripts": "3.4.4",
     "styled-components": "^5.2.0",
     "yup": "^0.32.0"
